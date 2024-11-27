@@ -36,41 +36,107 @@
 
 
 # ==== For Development works ======
+# version: '3.9'
+
+# services:
+#   db:
+#     container_name: quotes-db
+#     build: ./db
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: quotesdb
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: password
+#     volumes:
+#       - db-data:/var/lib/mysql
+
+#   api:
+#     container_name: quotes-api
+#     build: ./api
+#     depends_on:
+#       - db
+#     environment:
+#       MYSQL_HOST: db
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: password
+#       MYSQL_DB: quotesdb
+#     ports:
+#       - "5001:5001"
+
+#   app:
+#     container_name: quotes-frontend
+#     build: ./app
+#     depends_on:
+#       - api
+#     ports:
+#       # - "80:5000" # for beanstalk
+#       - "5002:5002"
+
+# volumes:
+#   db-data:
+
+
+
+
+
+
 version: '3.9'
 
 services:
+  # MongoDB service
   db:
     container_name: quotes-db
-    build: ./db
+    image: mongo:latest  # Use the official MongoDB image
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: quotesdb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MONGO_INITDB_DATABASE: quotesdb  # Initialize the database name (quotesdb)
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/data/db  # Persistent storage for MongoDB data
+    networks:
+      - quotes-network  # Optionally, assign the container to a network
 
+  # API service (your Flask app)
   api:
     container_name: quotes-api
-    build: ./api
+    build: ./api  # Path to your API Dockerfile
     depends_on:
-      - db
+      - db  # Ensure the API waits for the database to be available
     environment:
-      MYSQL_HOST: db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_DB: quotesdb
+      MONGO_URI: mongodb://db:27017/quotesdb  # MongoDB connection URI
     ports:
-      - "5001:5001"
+      - "5001:5001"  # Expose the API on port 5001
+    networks:
+      - quotes-network  # Connect to the same network as MongoDB
 
+  # Frontend service (your app)
   app:
     container_name: quotes-frontend
-    build: ./app
+    build: ./app  # Path to your Frontend Dockerfile
     depends_on:
-      - api
+      - api  # Ensure the app waits for the API to be available
     ports:
-      # - "80:5000" # for beanstalk
-      - "5002:5002"
+      - "5002:5002"  # Expose the frontend on port 5002
+    networks:
+      - quotes-network  # Connect to the same network as the API
 
+# Persistent volume for MongoDB data
 volumes:
   db-data:
+    driver: local  # Ensures data persistence across container restarts
+
+# Optional network configuration to ensure isolated communication
+networks:
+  quotes-network:
+    driver: bridge
+
+
+
+
+
+
+
+
+
+
+
+
+

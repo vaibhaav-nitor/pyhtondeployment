@@ -1,3 +1,2 @@
-flask
-flask-mysqldb
-mysqlclient
+flask==2.3.2
+pymongo==4.7.1

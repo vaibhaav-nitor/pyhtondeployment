@@ -81,7 +81,6 @@
 
 
 version: '3.9'
-
 services:
   # MongoDB service
   db:
@@ -93,7 +92,7 @@ services:
       - db-data:/data/db  # Persistent storage for MongoDB data
     networks:
       - quotes-network  # Optionally, assign the container to a network
-
+      
   # API service (your Flask app)
   api:
     container_name: quotes-api

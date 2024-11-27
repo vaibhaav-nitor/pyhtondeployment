@@ -1,13 +1,53 @@
+# FROM python:3.11-slim
+
+# WORKDIR /app
+
+# COPY . /app
+
+# RUN pip install -r requirements.txt
+
+# EXPOSE 5002 
+
+# # 5002 this is for local dev
+
+# CMD ["python", "app.py"]
+
+
+
+
+
+
+
+
+# Use a lightweight Python image
 FROM python:3.11-slim
 
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY . /app
+# Copy only the requirements file first to leverage Docker cache
+COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5002 
+# Copy the rest of the application code
+COPY . .
 
-# 5002 this is for local dev
+# Expose the Flask app's port (5002 for local dev and Docker Compose setups)
+EXPOSE 5002
 
+# Default command to run the Flask application
 CMD ["python", "app.py"]
+
+
+
+
+
+
+
+
+
+
+
+

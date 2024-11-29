@@ -55,7 +55,7 @@ pipeline {
             echo "Docker images pushed successfully."
         }
         failure {
-            echo "Pipeline failed."
+            echo " Pipeline failed please check and correct successfully."
         }
     }
 }

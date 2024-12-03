@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: workshop
+  labels:
+    role: frontend
+    env: demo
+spec: 
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels: 
+      role: frontend
+  template:
+    metadata:
+      labels:
+        role: frontend
+    spec: 
+      imagePullSecrets:
+      - name: ecr-registry-secret
+      containers:
+      - name: frontend
+        image: public.ecr.aws/i2c9h7p6/three-tier-frontend:latest
+        imagePullPolicy: Always
+        env:
+          - name: python_app_BACKEND_URL
+            value: "http://13.233.244.135:5001/api/quotes"
+        ports:  # Correct placement of the `ports` field
+        - containerPort: 5002

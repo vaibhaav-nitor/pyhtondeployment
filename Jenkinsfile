@@ -59,3 +59,128 @@ pipeline {
         }
     }
 }
+
+
+// pipeline {
+//     agent any
+
+//     environment {
+//         CLUSTER_NAME = 'three-tier-cluster'
+//         AWS_REGION = 'ap-south-1'
+//         KUBECONFIG = "${WORKSPACE}/kubeconfig"
+//         NAMESPACE = 'workshop'
+//     }
+
+//     stages {
+//         stage('Checkout Code') {
+//             steps {
+//                 // Use credentials for private repository
+//                 checkout([
+//                     $class: 'GitSCM',
+//                     branches: [[name: '*/main']], // Use 'master' if applicable
+//                     userRemoteConfigs: [[url: 'https://github.com/chan-764/pyhtondeployment.git', credentialsId: 'your-credentials-id']]
+//                 ])
+//             }
+//         }
+
+//         stage('Setup AWS CLI and kubectl') {
+//             steps {
+//                 script {
+//                     sh """
+//                     aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME} --kubeconfig ${KUBECONFIG}
+//                     """
+//                 }
+//             }
+//         }
+
+//         stage('Create Namespace') {
+//             steps {
+//                 script {
+//                     sh """
+//                     kubectl --kubeconfig=${KUBECONFIG} apply -f - <<EOF
+//                     apiVersion: v1
+//                     kind: Namespace
+//                     metadata:
+//                       name: ${NAMESPACE}
+//                     EOF
+//                     """
+//                 }
+//             }
+//         }
+
+//         stage('Deploy Database') {
+//             steps {
+//                 script {
+//                     sh """
+//                     kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/database-deploy.yaml -n ${NAMESPACE}
+//                     """
+//                 }
+//             }
+//         }
+
+//         stage('Deploy Backend') {
+//             steps {
+//                 script {
+//                     sh """
+//                     kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/backend-deploy.yaml -n ${NAMESPACE}
+//                     """
+//                 }
+//             }
+//         }
+
+//         stage('Deploy Frontend') {
+//             steps {
+//                 script {
+//                     sh """
+//                     kubectl --kubeconfig=${KUBECONFIG} apply -f k8s/frontend-deploy.yaml -n ${NAMESPACE}
+//                     """
+//                 }
+//             }
+//         }
+
+//         stage('Verify Deployments') {
+//             steps {
+//                 script {
+//                     sh """
+//                     kubectl --kubeconfig=${KUBECONFIG} get all -n ${NAMESPACE}
+//                     """
+//                 }
+//             }
+//         }
+//     }
+
+//     post {
+//         success {
+//             echo 'Deployment Successful!'
+//         }
+//         failure {
+//             echo 'Deployment Failed!'
+//         }
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

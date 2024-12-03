@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: workshop
+  labels:
+    role: api
+    env: demo
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      role: api
+  template:
+    metadata:
+      labels:
+        role: api
+    spec:
+      imagePullSecrets:
+        - name: ecr-registry-secret  # Ensure the secret for pulling images is correct
+      containers:
+        - name: api
+          image: public.ecr.aws/i2c9h7p6/three-tier-backend:latest  # Ensure the image is accessible from the public repository
+          imagePullPolicy: Always
+          env:
+            - name: MONGO_CONN_STR
+              value: mongodb://mongodb-svc:27017/todo?directConnection=true  # Correct connection string
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-sec
+                  key: username  # Ensure the 'mongo-sec' secret contains the correct key 'username'
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-sec
+                  key: password  # Ensure the 'mongo-sec' secret contains the correct key 'password'
+          ports:
+            - containerPort: 5001  # Ensure this port matches the actual port your application listens on
+          livenessProbe:
+            httpGet:
+              path: /ok  # Health check path to verify liveness
+              port: 5001  # The port being used by your application
+            initialDelaySeconds: 10  # Adjusted delay before starting the liveness check
+            periodSeconds: 5  # Time interval between liveness checks
+          readinessProbe:
+            httpGet:
+              path: /ok  # Health check path to verify readiness
+              port: 5001  # The port being used by your application
+            initialDelaySeconds: 10  # Adjusted delay before starting the readiness check
+            periodSeconds: 5  # Time interval between readiness checks
+            successThreshold: 1  # Number of successful checks before the container is considered ready

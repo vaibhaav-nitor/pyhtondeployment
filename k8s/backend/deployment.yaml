@@ -7,7 +7,7 @@ metadata:
     role: api
     env: demo
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -21,26 +21,13 @@ spec:
       labels:
         role: api
     spec:
-      imagePullSecrets:
-        - name: ecr-registry-secret  # Ensure the secret for pulling images is correct
       containers:
         - name: api
-          image:  public.ecr.aws/t4w9g9q0/three-tier-backend:latest # Ensure the image is accessible from the public repository
-          image:   # Ensure the image is accessible from the public repository
+          image: public.ecr.aws/t4w9g9q0/three-tier-backend:latest # Ensure the image is accessible from the public repository
           imagePullPolicy: Always
           env:
             - name: MONGO_CONN_STR
               value: mongodb://mongodb-svc:27017/todo?directConnection=true  # Correct connection string
-            - name: MONGO_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-sec
-                  key: username  # Ensure the 'mongo-sec' secret contains the correct key 'username'
-            - name: MONGO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-sec
-                  key: password  # Ensure the 'mongo-sec' secret contains the correct key 'password'
           ports:
             - containerPort: 5001  # Ensure this port matches the actual port your application listens on
           livenessProbe:

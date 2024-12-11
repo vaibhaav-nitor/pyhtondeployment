@@ -15,13 +15,9 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:4.4.6
+        image: mongo:4.4.6  # Replace with your custom MongoDB image if applicable
         command:
-          - "numactl"
-          - "--interleave=all"
           - "mongod"
-          - "--wiredTigerCacheSizeGB"
-          - "0.1"
           - "--bind_ip"
           - "0.0.0.0"
         ports:

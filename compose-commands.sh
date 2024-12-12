@@ -1,5 +1,5 @@
 # Build compose containers
 docker compose build
 
-# Run all containers at onces
+# Run all containers at once
 docker compose up -d

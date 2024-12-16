@@ -1,4 +1,4 @@
-# Build compose containerS
+# Build compose container
 docker compose build
 
 # Run all containers at once

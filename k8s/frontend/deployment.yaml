@@ -29,6 +29,6 @@ spec:
         imagePullPolicy: Always
         env:
           - name: python_app_BACKEND_URL
-            value: "http://13.233.244.135:5001/api/quotes"
+            value: "http://localhost:5001/api/quotes"
         ports:  # Correct placement of the `ports` field
         - containerPort: 5002

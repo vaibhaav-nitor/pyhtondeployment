@@ -21,14 +21,9 @@ spec:
       labels:
         role: frontend
     spec: 
-      # imagePullSecrets:
-      # - name: ecr-registry-secret
       containers:
       - name: frontend
         image: public.ecr.aws/i2c9h7p6/three-tier-frontend:latest
         imagePullPolicy: Always
-        # env:
-        #   - name: python_app_BACKEND_URL
-        #     value: "http://localhost:5001/api/quotes"
         ports:  # Correct placement of the `ports` field
         - containerPort: 5002

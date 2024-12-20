@@ -11,4 +11,4 @@ spec:
     protocol: TCP
     port: 27017                     # Expose the service on port 27017
     targetPort: 27017               # Redirect traffic to MongoDB container port
-  type: LoadBalancer                # Expose the service externally via LoadBalancer
+  type: ClusterIP               # Expose the service externally via LoadBalancer

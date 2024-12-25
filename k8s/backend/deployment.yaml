@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: public.ecr.aws/t4w9g9q0/three-tier-backend:latest # Ensure the image is accessible from the public repository
+          image: public.ecr.aws/l7u6w0c5/backend:latest # Ensure the image is accessible from the public repository
           imagePullPolicy: Always
           env:
             - name: MONGO_CONN_STR

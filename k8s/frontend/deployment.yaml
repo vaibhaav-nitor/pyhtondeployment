@@ -23,7 +23,7 @@ spec:
     spec: 
       containers:
       - name: frontend
-        image: public.ecr.aws/i2c9h7p6/three-tier-frontend:latest
+        image:public.ecr.aws/l7u6w0c5/frontend:latest
         imagePullPolicy: Always
         ports:  # Correct placement of the `ports` field
         - containerPort: 5002

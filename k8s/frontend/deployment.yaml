@@ -23,7 +23,7 @@ spec:
     spec: 
       containers:
       - name: frontend
-        image:public.ecr.aws/l7u6w0c5/frontend:latest
+        image: public.ecr.aws/l7u6w0c5/frontend:latest  # Space added after colon
         imagePullPolicy: Always
-        ports:  # Correct placement of the `ports` field
+        ports: 
         - containerPort: 5002

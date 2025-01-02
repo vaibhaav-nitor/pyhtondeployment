@@ -23,7 +23,7 @@ spec:
     spec: 
       containers:
       - name: frontend
-        image:  chandanuikey97/k8s-eks-image-app # Space added after colon
+        image:  chandanuikey97/k8s-eks-image-app:latest # Space added after colon
         imagePullPolicy: Always
         ports: 
         - containerPort: 5002

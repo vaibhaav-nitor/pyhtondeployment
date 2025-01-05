@@ -99,6 +99,7 @@ pipeline {
                         # Apply Kubernetes manifests
                         kubectl apply -f k8s/backend/deployment.yaml -n workshop
                         kubectl apply -f k8s/backend/service.yaml -n workshop
+                        kubectl apply -f k8s/backend/secrets.yaml -n workshop
                         kubectl apply -f k8s/frontend/deployment.yaml -n workshop
                         kubectl apply -f k8s/frontend/service.yaml -n workshop
 

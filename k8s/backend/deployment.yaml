@@ -23,23 +23,26 @@ spec:
     spec:
       containers:
         - name: api
-          image: chandanuikey97/k8s-eks-image-api:latest # Ensure the image is accessible from the public repository
+          image: chandanuikey97/k8s-eks-image-api:latest  # Ensure the image is accessible from the public repository
           imagePullPolicy: Always
           env:
             - name: MONGO_CONN_STR
-              value: mongodb://mongodb-svc:27017/todo?directConnection=true  # Correct connection string
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-sec  # Refers to the secret created above
+                  key: connection_string  # Refers to the key in the secret containing the connection string
           ports:
-            - containerPort: 5001  # Ensure this port matches the actual port your application listens on
+            - containerPort: 5001  # Correctly placed under the ports section
           livenessProbe:
             httpGet:
-              path: /ok  # Health check path to verify liveness
-              port: 5001  # The port being used by your application
-            initialDelaySeconds: 10  # Adjusted delay before starting the liveness check
-            periodSeconds: 5  # Time interval between liveness checks
+              path: /ok
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 5
           readinessProbe:
             httpGet:
-              path: /ok  # Health check path to verify readiness
-              port: 5001  # The port being used by your application
-            initialDelaySeconds: 10  # Adjusted delay before starting the readiness check
-            periodSeconds: 5  # Time interval between readiness checks
-            successThreshold: 1  # Number of successful checks before the container is considered ready
+              path: /ok
+              port: 5001
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1

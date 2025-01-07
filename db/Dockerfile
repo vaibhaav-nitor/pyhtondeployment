@@ -1,13 +1,4 @@
-# FROM mysql:latest
-# ENV MYSQL_DATABASE=quotesdb \
-#     MYSQL_ROOT_PASSWORD=root \
-#     MYSQL_USER=user \
-#     MYSQL_PASSWORD=password
-# COPY init.sql /docker-entrypoint-initdb.d/
-
-
-FROM mongo:latest
- 
+FROM mongo:latest 
 # Set environment variables for MongoDB (optional)
 ENV MONGO_INITDB_ROOT_USERNAME=root \
     MONGO_INITDB_ROOT_PASSWORD=rootpassword \

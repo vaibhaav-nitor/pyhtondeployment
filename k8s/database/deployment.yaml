@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: mongodb
-        image: mongo:4.4.6  # Replace with your custom MongoDB image if applicable
+        image: mongo:4.4.6  
         command:
           - "mongod"
           - "--bind_ip"

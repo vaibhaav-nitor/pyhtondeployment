@@ -26,7 +26,7 @@ resource "aws_subnet" "az3" {
   availability_zone = "us-west-2c"
 }
 
-resource "aws_iam_role" "cluster" {
+resource "aws_iam_role" "cluster1" {
   name               = "eks-cluster-example 2"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

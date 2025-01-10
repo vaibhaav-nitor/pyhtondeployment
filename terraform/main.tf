@@ -27,7 +27,7 @@ resource "aws_subnet" "az3" {
 }
 
 resource "aws_iam_role" "cluster1" {
-  name               = "eks-cluster-example 2"
+  name               = "eks-cluster-example2"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

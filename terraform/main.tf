@@ -77,19 +77,18 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
 
 # IAM Role for Worker Nodes
 resource "aws_iam_role" "worker_nodes_role" {
-  name               = "eks-worker-node-role"
+  name = "eks_worker_nodes_role"
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Action = [
-          "sts:AssumeRole"
-        ]
+        Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
           Service = "ec2.amazonaws.com"
-        ]
-      },
+        }
+      }
     ]
   })
 }

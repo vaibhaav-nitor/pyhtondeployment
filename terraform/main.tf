@@ -105,7 +105,7 @@ resource "aws_iam_role_policy_attachment" "worker_nodes_ecr_policy" {
 
 # EKS Cluster Configuration
 resource "aws_eks_cluster" "main" {
-  name     = "three-tier-cluster"
+  name     = "three-tier-cluster-2"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {

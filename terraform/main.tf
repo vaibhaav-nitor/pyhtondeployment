@@ -123,11 +123,11 @@ resource "aws_security_group" "worker_nodes" {
 
 # Launch Configuration for Worker Nodes
 resource "aws_launch_configuration" "worker_nodes" {
-  name = "eks-worker-node-launch-config"
-  image_id = "ami-xxxxxxxxxxxxxxx"  # Replace with the Amazon Linux 2 AMI ID for your region
-  instance_type = "t3.medium"
+  name                = "eks-worker-node-launch-config"
+  image_id            = "ami-xxxxxxxxxxxxxxx"  # Replace with the Amazon Linux 2 AMI ID for your region
+  instance_type       = "t3.medium"
   iam_instance_profile = aws_iam_instance_profile.worker_nodes.name
-  security_groups = [aws_security_group.worker_nodes.id]
+  security_groups     = [aws_security_group.worker_nodes.id]
 }
 
 # Auto Scaling Group for Worker Nodes
@@ -166,13 +166,10 @@ resource "aws_eks_node_group" "worker_nodes" {
   node_role_arn   = aws_iam_role.worker_nodes.arn
   subnets         = [aws_subnet.az1.id, aws_subnet.az2.id, aws_subnet.az3.id]
   instance_types  = ["t3.medium"]
-  desired_size    = 2
-  max_size        = 3
-  min_size        = 1
 
   scaling_config {
-    min_size    = 1
-    max_size    = 3
+    min_size     = 1
+    max_size     = 3
     desired_size = 2
   }
 

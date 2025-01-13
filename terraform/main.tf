@@ -28,6 +28,27 @@ resource "aws_subnet" "az3" {
   availability_zone = "us-west-2c"
 }
 
+# Security Group for Worker Nodes
+resource "aws_security_group" "worker_nodes" {
+  name        = "eks-worker-nodes-sg"
+  description = "Allow all traffic within the VPC for EKS worker nodes"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 # IAM Role for EKS Cluster
 resource "aws_iam_role" "cluster1" {
   name               = "eks-cluster-example2"
@@ -82,6 +103,33 @@ resource "aws_iam_role_policy_attachment" "worker_nodes_AmazonEC2ContainerRegist
   role       = aws_iam_role.worker_nodes.name
 }
 
+# Instance Profile for Worker Nodes
+resource "aws_iam_instance_profile" "worker_nodes" {
+  name = "eks-worker-node-profile"
+  role = aws_iam_role.worker_nodes.name
+}
+
+# Launch Template for Worker Nodes
+resource "aws_launch_template" "worker_nodes" {
+  name          = "eks-worker-node-launch-template"
+  image_id      = "ami-0b4a21432a0c9c1ab" # Replace with a valid EKS-optimized AMI ID
+  instance_type = "t3.medium"
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.worker_nodes.name
+  }
+
+  vpc_security_group_ids = [aws_security_group.worker_nodes.id]
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "eks-worker-node"
+    }
+  }
+}
+
 # EKS Cluster Configuration
 resource "aws_eks_cluster" "example" {
   name     = "example-2"
@@ -99,47 +147,6 @@ resource "aws_eks_cluster" "example" {
   depends_on = [
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy,
   ]
-}
-
-# Security Group for Worker Nodes
-resource "aws_security_group" "worker_nodes" {
-  name        = "eks-worker-nodes-sg"
-  description = "Allow all traffic within the VPC for EKS worker nodes"
-
-  ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-# Launch Template for Worker Nodes
-resource "aws_launch_template" "worker_nodes" {
-  name          = "eks-worker-node-launch-template"
-  image_id      = "ami-0b4a21432a0c9c1ab" # Replace with your AMI ID
-  instance_type = "t3.medium"
-
-  iam_instance_profile {
-    name = aws_iam_instance_profile.worker_nodes.name
-  }
-
-  vpc_security_group_ids = [aws_security_group.worker_nodes.id]
-
-  tag_specifications {
-    resource_type = "instance"
-
-    tags = {
-      Name = "eks-worker-node"
-    }
-  }
 }
 
 # Auto Scaling Group for Worker Nodes
@@ -167,12 +174,6 @@ resource "aws_autoscaling_group" "worker_nodes" {
   depends_on = [
     aws_eks_cluster.example
   ]
-}
-
-# Instance Profile for Worker Nodes
-resource "aws_iam_instance_profile" "worker_nodes" {
-  name = "eks-worker-node-profile"
-  role = aws_iam_role.worker_nodes.name
 }
 
 # Outputs

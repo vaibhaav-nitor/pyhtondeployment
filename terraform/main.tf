@@ -155,7 +155,10 @@ current-context: ${aws_eks_cluster.main.name}
 kind: Config
 users:
 - name: eks-admin
+  users:
+- name: eks-admin
   user:
     token: ${data.aws_eks_cluster_auth.main.token}
 EOT
+  sensitive = true  # Mark output as sensitive to avoid logging exposure
 }

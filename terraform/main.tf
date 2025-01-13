@@ -88,7 +88,7 @@ resource "aws_iam_role" "worker_nodes_role" {
         Effect = "Allow"
         Principal = {
           Service = "ec2.amazonaws.com"
-        }
+        ]
       },
     ]
   })
@@ -118,19 +118,6 @@ resource "aws_eks_cluster" "main" {
   }
 }
 
-# Output the cluster kubeconfig
-output "cluster_endpoint" {
-  value = aws_eks_cluster.main.endpoint
-}
-
-output "cluster_certificate_authority_data" {
-  value = aws_eks_cluster.main.certificate_authority[0].data
-}
-
-output "cluster_name" {
-  value = aws_eks_cluster.main.name
-}
-
 # Worker Node Group Configuration
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
@@ -138,12 +125,20 @@ resource "aws_eks_node_group" "main" {
   node_role_arn   = aws_iam_role.worker_nodes_role.arn
   subnet_ids      = [aws_subnet.az1.id, aws_subnet.az2.id, aws_subnet.az3.id]
   instance_types  = ["t2.medium"]
-  min_size        = 2
-  max_size        = 2
-  desired_size    = 2
+
+  scaling_config {
+    desired_size = 2
+    max_size     = 2
+    min_size     = 2
+  }
 }
 
-# Kubeconfig Output to access the cluster
+# Data Resource for Cluster Authentication
+data "aws_eks_cluster_auth" "main" {
+  name = aws_eks_cluster.main.name
+}
+
+# Output the cluster kubeconfig
 output "kubeconfig" {
   value = <<EOT
 apiVersion: v1

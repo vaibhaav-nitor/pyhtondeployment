@@ -121,13 +121,25 @@ resource "aws_security_group" "worker_nodes" {
   }
 }
 
-# Launch Configuration for Worker Nodes
-resource "aws_launch_configuration" "worker_nodes" {
-  name              = "eks-worker-node-launch-config"
-  image_id          = "ami-0b4a21432a0c9c1ab" # Updated with your AMI ID
-  instance_type     = "t3.medium"
-  iam_instance_profile = aws_iam_instance_profile.worker_nodes.name
-  security_groups   = [aws_security_group.worker_nodes.id]
+# Launch Template for Worker Nodes
+resource "aws_launch_template" "worker_nodes" {
+  name          = "eks-worker-node-launch-template"
+  image_id      = "ami-0b4a21432a0c9c1ab" # Replace with your AMI ID
+  instance_type = "t3.medium"
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.worker_nodes.name
+  }
+
+  vpc_security_group_ids = [aws_security_group.worker_nodes.id]
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "eks-worker-node"
+    }
+  }
 }
 
 # Auto Scaling Group for Worker Nodes
@@ -136,7 +148,11 @@ resource "aws_autoscaling_group" "worker_nodes" {
   max_size            = 3
   min_size            = 1
   vpc_zone_identifier = [aws_subnet.az1.id, aws_subnet.az2.id, aws_subnet.az3.id]
-  launch_configuration = aws_launch_configuration.worker_nodes.id
+
+  launch_template {
+    id      = aws_launch_template.worker_nodes.id
+    version = "$Latest"
+  }
 
   tag {
     key                 = "Name"

@@ -145,7 +145,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
 
 # IAM Role for Worker Nodes
 resource "aws_iam_role" "worker_nodes_role" {
-  name = "eks_worker_nodes_role"
+  name = "eks_worker_nodes_role1"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

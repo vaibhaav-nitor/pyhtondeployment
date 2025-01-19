@@ -13,6 +13,7 @@ RUN apt-get update \
        libssl-dev \
        libsasl2-dev \
        gnupg \
+       build-essential \  # Add build tools for compilation
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the dependencies file first for better Docker caching

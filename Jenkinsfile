@@ -6,7 +6,7 @@ pipeline {
         DOCKER_REPOSITORY = 'chandanuikey97/k8s-eks-image' // Docker repository name
         KUBECONFIG = '/var/lib/jenkins/.kube/config' // Path to kubeconfig
         AWS_CREDENTIALS = 'cred' // Your AWS credential ID
-        EKS_CLUSTER_NAME = 'three-tier-cluster' // EKS Cluster Name
+        EKS_CLUSTER_NAME = 'three-tier-cluster-2' // EKS Cluster Name
         AWS_REGION = 'us-west-2' // AWS Region
     }
     stages {

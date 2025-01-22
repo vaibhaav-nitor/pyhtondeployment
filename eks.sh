@@ -14,7 +14,7 @@ kubectl version --short --client
 # Step 2: Download and install eksctl
 echo "Downloading eksctl..."
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-sudo mv /eksctl /usr/local/bin
+# sudo mv /eksctl /usr/local/bin
 echo "eksctl installed successfully"
 eksctl version
 

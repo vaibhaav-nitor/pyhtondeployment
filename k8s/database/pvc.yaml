@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongo-volume-claim-new
+  name: mongo-volume-claim
   namespace: workshop
 spec:
   accessModes:

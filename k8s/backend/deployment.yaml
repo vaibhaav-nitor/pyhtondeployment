@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: chandanuikey97/k8s-eks-image-api:latest  # Ensure the image is accessible from the public repository
+          image: public.ecr.aws/h9l8e8o4/my-api-repo:latest # Ensure the image is accessible from the public repository
           imagePullPolicy: Always
           env:
             - name: MONGO_CONN_STR

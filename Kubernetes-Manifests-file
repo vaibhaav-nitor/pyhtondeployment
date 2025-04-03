@@ -1,18 +1,21 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: python-application
-  namespace: argocd
+  name: nginx-deployment
+  labels:
+    app: nginx
 spec:
-  project: default
-  source:
-    repoURL: https://github.com/chan-764/pyhtondeployment
-    targetRevision: HEAD
-    path: kubernetes
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: myapp
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80

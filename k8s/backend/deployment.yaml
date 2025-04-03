@@ -29,7 +29,7 @@ spec:
             - name: MONGO_CONN_STR
               valueFrom:
                 secretKeyRef:
-                  name: mongo-sec  # Refers to the secret created above
+                  name: mongo-sec1  # Refers to the secret created above
                   key: connection_string  # Refers to the key in the secret containing the connection string
           ports:
             - containerPort: 5001  # Correctly placed under the ports section

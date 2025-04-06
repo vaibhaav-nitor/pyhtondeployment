@@ -6,6 +6,12 @@ metadata:
   labels:
     role: api
     env: demo
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: my-api=public.ecr.aws/h9l8e8o4/my-api-repo
+    argocd-image-updater.argoproj.io/my-api.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/write-back-target: HEAD
+    argocd-image-updater.argoproj.io/git-branch: main
 spec:
   replicas: 2
   strategy:
@@ -23,16 +29,16 @@ spec:
     spec:
       containers:
         - name: api
-          image: public.ecr.aws/h9l8e8o4/my-api-repo:latest # Ensure the image is accessible from the public repository
+          image: public.ecr.aws/h9l8e8o4/my-api-repo:latest
           imagePullPolicy: Always
           env:
             - name: MONGO_CONN_STR
               valueFrom:
                 secretKeyRef:
-                  name: mongo-sec1  # Refers to the secret created above
-                  key: connection_string  # Refers to the key in the secret containing the connection string
+                  name: mongo-sec1
+                  key: connection_string
           ports:
-            - containerPort: 5001  # Correctly placed under the ports section
+            - containerPort: 5001
           livenessProbe:
             httpGet:
               path: /ok

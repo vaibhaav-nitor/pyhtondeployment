@@ -7,11 +7,11 @@ metadata:
     role: api
     env: demo
   annotations:
-    argocd-image-updater.argoproj.io/image-list: my-api=public.ecr.aws/h9l8e8o4/my-api-repo
-    argocd-image-updater.argoproj.io/my-api.update-strategy: latest
-    argocd-image-updater.argoproj.io/write-back-method: git
-    argocd-image-updater.argoproj.io/write-back-target: HEAD
-    argocd-image-updater.argoproj.io/git-branch: main
+    argocd-image-updater.argoproj.io/image-list: "my-api=public.ecr.aws/h9l8e8o4/my-api-repo"
+    argocd-image-updater.argoproj.io/update-strategy: "latest"
+    argocd-image-updater.argoproj.io/write-back-method: "git"
+    argocd-image-updater.argoproj.io/write-back-target: "HEAD"
+    argocd-image-updater.argoproj.io/git-branch: "main"
 spec:
   replicas: 1
   strategy:

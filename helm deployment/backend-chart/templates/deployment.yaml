@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-deployment
+  name: {{ .Release.Name }}-backend
   labels:
-    app: {{ .Chart.Name }}
+    app: backend
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app: backend
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app: backend
     spec:
-      imagePullSecrets:
-        - name: ecr-secret  # Add this line to reference the secret
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.automount }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: backend
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:

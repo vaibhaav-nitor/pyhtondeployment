@@ -1,1 +1,32 @@
+replicaCount: 1
 
+image:
+  repository: public.ecr.aws/h9l8e8o4/my-api-repo
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 5001
+
+env:
+  - name: MONGO_DB
+    valueFrom:
+      secretKeyRef:
+        name: backend-secret
+        key: mongo_url
+
+serviceAccount:
+  create: true
+  name: backend-serviceaccount
+  automount: true
+  annotation: {}
+
+ingress:
+  enabled: false
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80

@@ -30,3 +30,6 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 3
   targetCPUUtilizationPercentage: 80
+  mongo:
+  url: "mongodb://admin:password123@mongodb-svc:27017/todo?authSource=admin"
+

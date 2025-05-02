@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-deployment
+  namespace: argocd  # Ensure ArgoCD is installed in this namespace
+spec:
+  project: backend
+  source:
+    repoURL: https://github.com/chan-764/pyhtondeployment.git
+    targetRevision: HEAD
+    path: k8s/backend  # Ensure this path exists in the repo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: workshop
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

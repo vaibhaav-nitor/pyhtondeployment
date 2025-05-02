@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/chan-764/pyhtondeployment.git'
+    targetRevision: HEAD
+    path: k8s/frontend  # This points to the "frontend" folder in your repo
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: workshop  # The namespace where your app will be deployed
+  syncPolicy:
+    automated:
+      prune: true  # Removes resources that are no longer part of the repo
+      selfHeal: true  # Automatically fixes out-of-sync resources

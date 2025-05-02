@@ -23,7 +23,11 @@ spec:
     spec: 
       containers:
       - name: frontend
+<<<<<<< HEAD
         image:  public.ecr.aws/h9l8e8o4/python-deployment:latest
+=======
+        image: public.ecr.aws/h9l8e8o4/python-deployment:latest # Space added after colon
+>>>>>>> 6baeaa0 (WIP: local changes before rebase)
         imagePullPolicy: Always
         ports: 
         - containerPort: 5002

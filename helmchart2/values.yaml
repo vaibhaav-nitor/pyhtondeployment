@@ -1,9 +1,8 @@
 replicaCount: 1
-
   image: 
-  repository: public.ecr.aws/h9l8e8o4/my-api-repo
+  repository: public.ecr.aws/h9l8e8o4/my-api-repo:latest
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: always
 
 service:
   type: LoadBalancer

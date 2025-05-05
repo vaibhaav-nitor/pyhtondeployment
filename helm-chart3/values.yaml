@@ -145,5 +145,6 @@ tolerations: []
 affinity: {}
 
 # ➕ MONGO CONNECTION STRING SECTION (used in secrets.yaml)
-mongo:
-  url: "mongodb://admin:password123@mongodb-mongodb-chart:27017/todo?authSource=admin"
+MONGO_URL: "mongodb://admin:password123@mongodb-mongodb-chart:27017/todo?authSource=admin"
+
+  

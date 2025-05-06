@@ -1,0 +1,32 @@
+replicaCount: 1
+
+image:
+  repository: public.ecr.aws/h9l8e8o4/python-deployment
+  pullPolicy: Always
+  tag: latest
+
+service:
+  type: LoadBalancer
+  port: 5002
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+resources: {}
+autoscaling:
+  enabled: false
+
+serviceAccount:
+  create: true
+  automount: true
+
+
+ingress:
+  enabled: false

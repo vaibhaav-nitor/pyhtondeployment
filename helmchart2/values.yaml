@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: public.ecr.aws/h9l8e8o4/my-api-repo
-  tag: c87d2e1
+  tag: 26d7f7b
   pullPolicy: IfNotPresent
 service:
   type: LoadBalancer

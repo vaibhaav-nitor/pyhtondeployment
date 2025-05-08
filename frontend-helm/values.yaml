@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: public.ecr.aws/h9l8e8o4/python-deployment
   pullPolicy: Always
-  tag: $IMAGE_TAG
+  tag: d9a829c
 
 service:
   type: LoadBalancer

@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: public.ecr.aws/h9l8e8o4/python-deployment
   pullPolicy: Always
-  tag: f3d1b70
+  tag: 10f0014
 service:
   type: LoadBalancer
   port: 5002
